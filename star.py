@@ -4,7 +4,7 @@ import math
 dot = turtle.Turtle()
 dot.getscreen().bgcolor("#abf9ff")
 dot.penup()
-dot.goto(-100, 50)
+dot.goto(-100, 70)
 dot.pendown()
 
 # for i in range(5):
