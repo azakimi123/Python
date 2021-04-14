@@ -1,196 +1,141 @@
-'''
-Project Name: Stocks Data
-Author: Aaron Zakimi
-Due Date: 03/25/2021
-Course: CS1400
-
-I haven't worked with importing data from a CSV file before.  This was interesting to learn how to extract data from another file to use in our code. 
-'''
-
-# import statistics to help with calculations
-import statistics
+import turtle
+import math
+import random
 
 def main():
-  # # Initializes empty list to insert table data
-  apple = []
-  micro = []
-  IBM = []
-  total = []
-  total_d = []
+  width = int(input("Enter screen width: "))
+  height = int(input("Enter screen height: "))
+  number = int(input("Enter number of fish: "))
+
+  user = str(input("Enter small or large: "))
+
+  if user == "small":
+    scale = 2
+  elif user == "large":
+    scale = 1
 
 
-  apple_date = []
-  micro_date = []
-  IBM_date = []
-
-  #to check to see if I imported all of the data
-  apple_ct = 0
-  micro_ct = 0
-  IBM_ct = 0
-
-  # f = open("stocks_data.csv", "r")
-  # print(f.readline())
-  # f.close()
-
-  #import csv to help with reading csv files
-  import csv
-
-  with open('stocks_data.csv') as f:
-    myreader = csv.reader(f)
-    # datafile = open('stocks_data.csv', 'r')
-    # myreader = csv.reader(datafile)
-
-    #for loop to build the lists of data
-    for row in myreader:
-      if row[0] == "AAPL":
-        apple.append(float(row[2]))
-        apple_date.append((row[1]))
-        apple_ct += 1
-      elif row[0] == "IBM":
-        IBM.append(float(row[2]))
-        IBM_date.append((row[1]))
-        IBM_ct += 1
-      elif row[0] == "MSFT":
-        micro.append(float(row[2]))
-        micro_date.append((row[1]))
-        micro_ct += 1
-  
-    apple_max = max(apple)  
-    apple_min = min(apple)  
-    IBM_max = max(IBM)  
-    IBM_min= min(IBM)  
-    micro_max = max(micro)  
-    micro_min = min(micro)  
-
-    #functions to calculate requested outputs
-    def apple_calculations():
-      apple_max = max(apple)
-      apple_max_index = apple.index(apple_max)
-      ap_max_d = apple_date[apple_max_index]
-      apple_min = min(apple)
-      apple_min_index = apple.index(apple_min)
-      ap_min_d = apple_date[apple_min_index]
-      ap_mean = statistics.fmean(apple)
-      total.extend([apple_max, apple_min])
-      total_d.extend([ap_max_d, ap_min_d])
+  turtle.setup(width, height, startx=None, starty=None)
+  turtle.Turtle().speed(10)
+  turtle.Turtle().getscreen().bgcolor("#34baeb")
+  turtle.colormode(255)
 
 
-      with open('stock_summary.txt', 'w') as f:
-        f.write(
-        f"""        AAPL
-        ------
-        MAX:  {apple_max} {ap_max_d}
-        MIN:  {apple_min} {ap_min_d}
-        MEAN: {ap_mean}""")
+  # def fish():
+  #   fish = turtle.Turtle()
+  #   for i in range(4):
+  #     fish.forward(50)
+  #     fish.pendown()
+  #     fish.forward(50)
+  #     fish.left(90)
 
-      print("AAPL")
-      print("------")
-      print("MAX: ", apple_max, ap_max_d)
-      print("MIN: ", apple_min, ap_min_d)
-      print("MEAN: ", ap_mean)
+  #   fish.circle(200)
+  #   turtle.done()
 
-    def micro_calculations():
-      micro_max = max(micro)
-      micro_max_index = micro.index(micro_max)
-      mi_max_d = micro_date[micro_max_index]
-      micro_min = min(micro)
-      micro_min_index = micro.index(micro_min)
-      mi_min_d = micro_date[micro_min_index]
-      mi_mean = statistics.fmean(micro)
-      total.extend([micro_max, micro_min])
-      total_d.extend([mi_max_d, mi_min_d])
+  def tail(x, y, color):
+    tail = turtle.Turtle()
+    tail.penup()
+    tail.setpos((x - (scale * 2)), y)
+    tail.forward(105/scale)
+    tail.left(90)
+    tail.backward(25/scale)
+    tail.pendown()
+    tail.color(color)
+    tail.begin_fill()
+    for i in range(3):
+      tail.forward(65/scale)
+      tail.left(120)
+    tail.end_fill()
+    tail.hideturtle()
 
-      with open('stock_summary.txt', 'a') as f:
-        f.write(
-        f"""        
-        
-        MSFT
-        ------
-        MAX:  {micro_max} {mi_max_d}
-        MIN:  {micro_min} {mi_min_d}
-        MEAN: {mi_mean}""")
+  def eye(x,y):
+    eye = turtle.Turtle()
+    eye.penup()
+    eye.setpos((x + (scale * 5)),y)
+    eye.backward(35)
+    eye.color("black")
+    eye.begin_fill()
+    eye.circle(5/scale)
+    eye.end_fill()
+    eye.hideturtle()
 
-      print("MSFT")
-      print("------")
-      print("MAX: ", micro_max, mi_max_d)
-      print("MIN: ", micro_min, mi_min_d)
-      print("MEAN: ", mi_mean)
+  def big_scales(x,y):
+    scale_1 = turtle.Turtle()
+    scale_1.penup()
+    scale_1.setpos((x+(scale*5)),(y+(scale*8)))
+    scale_1.backward(20)
+    scale_1.right(90)
+    scale_1.forward(33)
+    scale_1.left(90)
+    scale_1.pendown()
+    for i in range(3):
+      scale_1.circle((10/scale),180)
+      scale_1.right(90)
+      scale_1.forward(1)
+      scale_1.right(90)
+    scale_1.hideturtle()
+
+  def small_scales(x,y):
+    scale_2 = turtle.Turtle()
+    scale_2.penup()
+    scale_2.setpos((x+(scale)),(y+(scale*5)))
+    scale_2.forward(10)
+    scale_2.right(90)
+    scale_2.forward(20)
+    scale_2.left(90)
+    scale_2.pendown()
+    for i in range(2):
+      scale_2.circle((10/scale),180)
+      scale_2.right(90)
+      scale_2.forward(1)
+      scale_2.right(90)
+    scale_2.hideturtle()
+
+  def body(x, y, color):
+    body = turtle.Turtle()
+    body.penup()
+    body.setpos(x,y)
+    body.color(color)
+    body.begin_fill()
+    body.shape("circle")
+    # body.shapesize(5,6,1)
+    body.shapesize((5/scale),(6/scale),1)
+    body.end_fill()
+    body.penup()
+    eye(x,y)
+    big_scales(x,y)
+    small_scales(x,y)
+    tail(x, y, color)
+
+  # def fish():
+  #   for i in range(5):
+  #     randColor = random.randrange(0, len(colors))
+  #     rand1 = random.randrange(-300, 300)
+  #     rand2 = random.randrange(-300, 300)
+  #     turtle.Turtle().penup()
+  #     turtle.Turtle().setpos((rand1,rand2))
+  #     body()
+
+  # def fish():
+  #   turtle.Turtle().goto(random.randint(-500,0), random.randint(0,500))
+  #   body()
+
+  def random_color():
+      rgbl=[random.randint(0,255),random.randint(0,255),random.randint(0,255)]
+      return tuple(rgbl)
+
+  def fish(num):
+    for i in range(num):
+      randColor = random_color()
+      rand1 = random.randrange(-300, 300)
+      rand2 = random.randrange(-300, 300)
+      turtle.Turtle().penup()
+      # body(rand1, rand2, randColor)
+      body(rand1, rand2, randColor)
       
 
-    def IBM_calculations():
-      IBM_max = max(IBM)
-      IBM_max_index = IBM.index(IBM_max)
-      IBM_max_d = IBM_date[IBM_max_index]
-      IBM_min = min(IBM)
-      IBM_min_index = IBM.index(IBM_min)
-      IBM_min_d = IBM_date[IBM_min_index]
-      IBM_mean = statistics.fmean(IBM)
-      total.extend([IBM_max, IBM_min])
-      total_d.extend([IBM_max_d, IBM_min_d])
 
-      with open('stock_summary.txt', 'a') as f:
-        f.write(
-        f"""        
-        
-        IBM
-        ------
-        MAX:  {IBM_max} {IBM_max_d}
-        MIN:  {IBM_min} {IBM_min_d}
-        MEAN: {IBM_mean}""")
+  fish(number)
 
-      print("IBM")
-      print("------")
-      print("MAX: ", IBM_max, IBM_max_d)
-      print("MIN: ", IBM_min, IBM_min_d)
-      print("MEAN: ", IBM_mean)
-
-      symbol_max = ""
-      symbol_min = ""
-
-  def overall():
-      total_max = max(total)
-      total_max_index = total.index(total_max)
-      to__max_d = total_d[total_max_index]
-      total_min = min(total)
-      total_min_index = total.index(total_min)
-      to_min_d = total_d[total_min_index]
-      
-
-      if total_max == apple_max:
-        symbol_max = "AAPL"
-        
-      elif total_max == micro_max:
-        symbol_max = "MSFT"
-        
-      elif total_max == IBM_max:
-        symbol_max = "IBM"
-
-      if total_min == apple_min:
-        symbol_min = "AAPL"
-        
-      elif total_min == micro_min:
-        symbol_min = "MSFT"
-        
-      elif total_min == IBM_min:
-        symbol_min = "IBM"
-
-      with open('stock_summary.txt', 'a') as f:
-        f.write(
-        f"""        
-        
-        {symbol_max} {total_max} {to__max_d}
-        {symbol_min} {total_min} {to_min_d}""")
-        
-
-      print(symbol_max, total_max, to__max_d)
-      print(symbol_min, total_min, to_min_d)
-
-  apple_calculations()
-  print()
-  IBM_calculations()
-  print()
-  micro_calculations()
-  print()
-  overall()
-
+  turtle.done()
 main()
