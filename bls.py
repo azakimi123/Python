@@ -6,24 +6,28 @@ from csv import reader
 import numpy as np
 import pandas as pd
 
+# imports to help with graph
 from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib import dates as mpl_dates
-import numpy as np
 
 
 
 
+# Basic steps I need to complete
 # 1. need to parse the correct data from csv file
 # 2. create a dictionary of the correct data
 # 3. create a function to get the total number of jobs
 
+# List to store data for outputs
 demo_jobs = []
 demo_plot = []
 demo_year_plot = []
 rep_jobs= []
 rep_plot = []
 rep_year_plot = []
+
+# Creates new csv file to extract data
 with open('BLS_report.csv') as f:
   reader = csv.reader(f)
   
@@ -43,6 +47,8 @@ with open('BLS_report.csv') as f:
             csvwriter.writerow(rows)
             # print(rows)
 
+
+# Opens new csv file with the data
 with open('BLS_data.csv') as f:
   data = csv.DictReader(f)
 
@@ -115,11 +121,9 @@ with open('BLS_data.csv') as f:
 
 
 
-
+  # Total results of jobs created
   print('Democrats: ', sum(demo_jobs))
   print('Republicans: ', sum(rep_jobs))
-  # print(demo_year_plot)
-  # print(rep_year_plot)
 
   democrat = np.array(demo_plot)
   republican = np.array(rep_plot)
@@ -131,26 +135,3 @@ with open('BLS_data.csv') as f:
 
   plt.legend()
   plt.show()
-
-
-
-  # for row in data:
-  #   if not found_section:
-  #     if len(row) > 0:
-  #       if row[0] == "Year":
-  #         header = next(data)
-  #         # header = next(data)
-  #         found_section = True
-  #   else:
-  #     break
-
-  # print(header)
-
-  # for row in data:
-  #   # if row[0] == "Year":
-  #   #   print(row)
-  #   if row[0] == '1961':
-  #     for num in row[1:]:
-  #       rows.append(num)
-  
-  # print(rows)
