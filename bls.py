@@ -6,6 +6,11 @@ from csv import reader
 import numpy as np
 import pandas as pd
 
+from datetime import datetime
+import matplotlib.pyplot as plt
+from matplotlib import dates as mpl_dates
+import numpy as np
+
 
 
 
@@ -14,7 +19,11 @@ import pandas as pd
 # 3. create a function to get the total number of jobs
 
 demo_jobs = []
+demo_plot = []
+demo_year_plot = []
 rep_jobs= []
+rep_plot = []
+rep_year_plot = []
 with open('BLS_report.csv') as f:
   reader = csv.reader(f)
   
@@ -44,6 +53,8 @@ with open('BLS_data.csv') as f:
     if row['Year'] == '1969':
       end = int(row['Jan'])
       demo_jobs.append(end - begin)
+      demo_plot.append(sum(demo_jobs))
+      demo_year_plot.append(datetime(int(row['Year']), 1, 1))
 
   # Republic 1
     if row['Year'] == '1969':
@@ -51,6 +62,8 @@ with open('BLS_data.csv') as f:
     if row['Year'] == '1977':
       end = int(row['Jan'])
       rep_jobs.append(end - begin)
+      rep_plot.append(sum(rep_jobs))
+      rep_year_plot.append(datetime(int(row['Year']), 1, 1))
 
   #Democratic 2
     if row['Year'] == '1977':
@@ -58,6 +71,8 @@ with open('BLS_data.csv') as f:
     if row['Year'] == '1981':
       end = int(row['Jan'])
       demo_jobs.append(end - begin)
+      demo_plot.append(sum(demo_jobs))
+      demo_year_plot.append(datetime(int(row['Year']), 1, 1))
 
   # Republic 2
     if row['Year'] == '1981':
@@ -65,6 +80,8 @@ with open('BLS_data.csv') as f:
     if row['Year'] == '1993':
       end = int(row['Jan'])
       rep_jobs.append(end - begin)
+      rep_plot.append(sum(rep_jobs))
+      rep_year_plot.append(datetime(int(row['Year']), 1, 1))
   
   #Democratic 3
     if row['Year'] == '1993':
@@ -72,6 +89,8 @@ with open('BLS_data.csv') as f:
     if row['Year'] == '2001':
       end = int(row['Jan'])
       demo_jobs.append(end - begin)
+      demo_plot.append(sum(demo_jobs))
+      demo_year_plot.append(datetime(int(row['Year']), 1, 1))
 
   # Republic 3
     if row['Year'] == '2001':
@@ -79,13 +98,19 @@ with open('BLS_data.csv') as f:
     if row['Year'] == '2009':
       end = int(row['Jan'])
       rep_jobs.append(end - begin)
+      rep_plot.append(sum(rep_jobs))
+      rep_year_plot.append(datetime(int(row['Year']), 1, 1))
 
-  #Democratic 3
+  #Democratic 4
     if row['Year'] == '2009':
       begin = int(row['Feb'])
     if row['Year'] == '2012':
       end = int(row['Dec'])
       demo_jobs.append(end - begin)
+      demo_plot.append(sum(demo_jobs))
+      rep_plot.append(sum(rep_jobs))
+      demo_year_plot.append(datetime(int(row['Year']), 12, 1))
+      rep_year_plot.append(datetime(int(row['Year']), 12, 1))
 
 
 
@@ -93,6 +118,19 @@ with open('BLS_data.csv') as f:
 
   print('Democrats: ', sum(demo_jobs))
   print('Republicans: ', sum(rep_jobs))
+  # print(demo_year_plot)
+  # print(rep_year_plot)
+
+  democrat = np.array(demo_plot)
+  republican = np.array(rep_plot)
+  demo_years = np.array(demo_year_plot)
+  rep_years = np.array(rep_year_plot)
+
+  plt.plot(demo_years, democrat, color='blue', marker="o", linestyle='dashed', label='Democratic Jobs')
+  plt.plot(rep_years, republican, color='red', marker="o", linestyle='dashed', label='Republican Jobs')
+
+  plt.legend()
+  plt.show()
 
 
 
