@@ -1,141 +1,141 @@
-import turtle
-import math
-import random
 
-def main():
-  width = int(input("Enter screen width: "))
-  height = int(input("Enter screen height: "))
-  number = int(input("Enter number of fish: "))
+def Main():
+  # import statistics to help with calculations
+  import statistics
+  #import csv to help with reading csv files
+  import csv
+  from csv import reader
+  import numpy as np
+  import pandas as pd
 
-  user = str(input("Enter small or large: "))
-
-  if user == "small":
-    scale = 2
-  elif user == "large":
-    scale = 1
-
-
-  turtle.setup(width, height, startx=None, starty=None)
-  turtle.Turtle().speed(10)
-  turtle.Turtle().getscreen().bgcolor("#34baeb")
-  turtle.colormode(255)
+  # imports to help with graph
+  from datetime import datetime
+  import matplotlib.pyplot as plt
+  from matplotlib import dates as mpl_dates
 
 
-  # def fish():
-  #   fish = turtle.Turtle()
-  #   for i in range(4):
-  #     fish.forward(50)
-  #     fish.pendown()
-  #     fish.forward(50)
-  #     fish.left(90)
-
-  #   fish.circle(200)
-  #   turtle.done()
-
-  def tail(x, y, color):
-    tail = turtle.Turtle()
-    tail.penup()
-    tail.setpos((x - (scale * 2)), y)
-    tail.forward(105/scale)
-    tail.left(90)
-    tail.backward(25/scale)
-    tail.pendown()
-    tail.color(color)
-    tail.begin_fill()
-    for i in range(3):
-      tail.forward(65/scale)
-      tail.left(120)
-    tail.end_fill()
-    tail.hideturtle()
-
-  def eye(x,y):
-    eye = turtle.Turtle()
-    eye.penup()
-    eye.setpos((x + (scale * 5)),y)
-    eye.backward(35)
-    eye.color("black")
-    eye.begin_fill()
-    eye.circle(5/scale)
-    eye.end_fill()
-    eye.hideturtle()
-
-  def big_scales(x,y):
-    scale_1 = turtle.Turtle()
-    scale_1.penup()
-    scale_1.setpos((x+(scale*5)),(y+(scale*8)))
-    scale_1.backward(20)
-    scale_1.right(90)
-    scale_1.forward(33)
-    scale_1.left(90)
-    scale_1.pendown()
-    for i in range(3):
-      scale_1.circle((10/scale),180)
-      scale_1.right(90)
-      scale_1.forward(1)
-      scale_1.right(90)
-    scale_1.hideturtle()
-
-  def small_scales(x,y):
-    scale_2 = turtle.Turtle()
-    scale_2.penup()
-    scale_2.setpos((x+(scale)),(y+(scale*5)))
-    scale_2.forward(10)
-    scale_2.right(90)
-    scale_2.forward(20)
-    scale_2.left(90)
-    scale_2.pendown()
-    for i in range(2):
-      scale_2.circle((10/scale),180)
-      scale_2.right(90)
-      scale_2.forward(1)
-      scale_2.right(90)
-    scale_2.hideturtle()
-
-  def body(x, y, color):
-    body = turtle.Turtle()
-    body.penup()
-    body.setpos(x,y)
-    body.color(color)
-    body.begin_fill()
-    body.shape("circle")
-    # body.shapesize(5,6,1)
-    body.shapesize((5/scale),(6/scale),1)
-    body.end_fill()
-    body.penup()
-    eye(x,y)
-    big_scales(x,y)
-    small_scales(x,y)
-    tail(x, y, color)
-
-  # def fish():
-  #   for i in range(5):
-  #     randColor = random.randrange(0, len(colors))
-  #     rand1 = random.randrange(-300, 300)
-  #     rand2 = random.randrange(-300, 300)
-  #     turtle.Turtle().penup()
-  #     turtle.Turtle().setpos((rand1,rand2))
-  #     body()
-
-  # def fish():
-  #   turtle.Turtle().goto(random.randint(-500,0), random.randint(0,500))
-  #   body()
-
-  def random_color():
-      rgbl=[random.randint(0,255),random.randint(0,255),random.randint(0,255)]
-      return tuple(rgbl)
-
-  def fish(num):
-    for i in range(num):
-      randColor = random_color()
-      rand1 = random.randrange(-300, 300)
-      rand2 = random.randrange(-300, 300)
-      turtle.Turtle().penup()
-      # body(rand1, rand2, randColor)
-      body(rand1, rand2, randColor)
-      
 
 
-  fish(number)
+  # Basic steps I need to complete
+  # 1. need to parse the correct data from csv file
+  # 2. create a dictionary of the correct data
+  # 3. create a function to get the total number of jobs
 
-  turtle.done()
-main()
+  # List to store data for outputs
+  demo_jobs = []
+  demo_plot = []
+  demo_year_plot = []
+  rep_jobs= []
+  rep_plot = []
+  rep_year_plot = []
+
+  # Creates new csv file to extract data
+  with open('BLS_report.csv') as f:
+    reader = csv.reader(f)
+    
+    for row in reader:
+      if row[0] == 'Year':
+        header = row
+        # writing to csv file 
+        with open('BLS_data.csv', 'w') as csvfile: 
+            # creating a csv writer object 
+            csvwriter = csv.writer(csvfile) 
+                
+            # writing the fields 
+            csvwriter.writerow(header) 
+    
+            for rows in reader:
+              # writing the data rows 
+              csvwriter.writerow(rows)
+              # print(rows)
+
+
+  # Opens new csv file with the data
+  with open('BLS_data.csv') as f:
+    data = csv.DictReader(f)
+
+    #Democratic 1
+    for row in data:
+      if row['Year'] == '1961':
+        begin = int(row['Jan'])
+      if row['Year'] == '1969':
+        end = int(row['Jan'])
+        demo_jobs.append(end - begin)
+        demo_plot.append(sum(demo_jobs))
+        demo_year_plot.append(datetime(int(row['Year']), 1, 1))
+
+    # Republic 1
+      if row['Year'] == '1969':
+        begin = int(row['Feb'])
+      if row['Year'] == '1977':
+        end = int(row['Jan'])
+        rep_jobs.append(end - begin)
+        rep_plot.append(sum(rep_jobs))
+        rep_year_plot.append(datetime(int(row['Year']), 1, 1))
+
+    #Democratic 2
+      if row['Year'] == '1977':
+        begin = int(row['Feb'])
+      if row['Year'] == '1981':
+        end = int(row['Jan'])
+        demo_jobs.append(end - begin)
+        demo_plot.append(sum(demo_jobs))
+        demo_year_plot.append(datetime(int(row['Year']), 1, 1))
+
+    # Republic 2
+      if row['Year'] == '1981':
+        begin = int(row['Feb'])
+      if row['Year'] == '1993':
+        end = int(row['Jan'])
+        rep_jobs.append(end - begin)
+        rep_plot.append(sum(rep_jobs))
+        rep_year_plot.append(datetime(int(row['Year']), 1, 1))
+    
+    #Democratic 3
+      if row['Year'] == '1993':
+        begin = int(row['Feb'])
+      if row['Year'] == '2001':
+        end = int(row['Jan'])
+        demo_jobs.append(end - begin)
+        demo_plot.append(sum(demo_jobs))
+        demo_year_plot.append(datetime(int(row['Year']), 1, 1))
+
+    # Republic 3
+      if row['Year'] == '2001':
+        begin = int(row['Feb'])
+      if row['Year'] == '2009':
+        end = int(row['Jan'])
+        rep_jobs.append(end - begin)
+        rep_plot.append(sum(rep_jobs))
+        rep_year_plot.append(datetime(int(row['Year']), 1, 1))
+
+    #Democratic 4
+      if row['Year'] == '2009':
+        begin = int(row['Feb'])
+      if row['Year'] == '2012':
+        end = int(row['Dec'])
+        demo_jobs.append(end - begin)
+        demo_plot.append(sum(demo_jobs))
+        rep_plot.append(sum(rep_jobs))
+        demo_year_plot.append(datetime(int(row['Year']), 12, 1))
+        rep_year_plot.append(datetime(int(row['Year']), 12, 1))
+
+
+
+
+    # Total results of jobs created
+    print('Democrats: ', sum(demo_jobs))
+    print('Republicans: ', sum(rep_jobs))
+
+    democrat = np.array(demo_plot)
+    republican = np.array(rep_plot)
+    demo_years = np.array(demo_year_plot)
+    rep_years = np.array(rep_year_plot)
+
+    plt.plot(demo_years, democrat, color='blue', marker="o", linestyle='dashed', label='Democratic Jobs')
+    plt.plot(rep_years, republican, color='red', marker="o", linestyle='dashed', label='Republican Jobs')
+
+    plt.legend()
+    plt.show()
+
+Main()
